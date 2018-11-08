@@ -63,31 +63,28 @@ class App extends MatrixPuppetBridgeBase {
 
       console.log('Subscribed to GroupMe user messages');
       userSub.on('line.create', (data) => {
-        const { subject: { group_id, user_id, text, name, picture_url } } = data;
+        let  {subject: {text, picture_url } } = data;
+        const { subject: { group_id, user_id, name } } = data;
         const isMe = user_id === this.userId;
         debug('text = ', text, 'pictureurl = ', picture_url);
-        if (picture_url != 'null' || picture_url != null){
-          const newText = text + " " + picture_url;
+        if (String(picture_url) == 'null' ){
+          const text = text + " " +picture_url;
+        }
+        else{
+          const text = text;
+        }
 
           
           return this.handleThirdPartyRoomMessage({
             roomId: group_id,
             senderName: name,
             senderId: isMe ? undefined : user_id,
-            newText
+            text
           }).catch(err => {
             console.error(err.stack);
           });
           
-        } else{
-        return this.handleThirdPartyRoomMessage({
-          roomId: group_id,
-          senderName: name,
-          senderId: isMe ? undefined : user_id,
-          text
-        }).catch(err => {
-          console.error(err.stack);
-        }); }
+         
       });
       userSub.on('direct_message.create', (data) => {
         const { subject: { chat_id, sender_id, text, name } } = data;
