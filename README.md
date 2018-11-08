@@ -33,3 +33,8 @@ Edit your homeserver.yaml file and update the `app_service_config_files` with th
 Launch the bridge with ```node index.js```.
 
 Restart your HS.
+
+
+EDITS - 
+
+Trying to set up docker - pass -e GROUPMEOWNER = <name> to create new bridge

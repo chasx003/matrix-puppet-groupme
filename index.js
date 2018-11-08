@@ -41,7 +41,7 @@ const keepalive = ({ ping, reconnect }) => {
 
 class App extends MatrixPuppetBridgeBase {
   getServicePrefix() {
-    return "groupme";
+    return "groupme"+ process.env.GROUP_ME_OWNER;
   }
   createClient() {
     return new GroupMeClient(this.config.groupme.accessToken);
@@ -128,6 +128,9 @@ new Cli({
       reg.setId(AppServiceRegistration.generateToken());
       reg.setHomeserverToken(AppServiceRegistration.generateToken());
       reg.setAppServiceToken(AppServiceRegistration.generateToken());
+      reg.setSenderLocalpart("groupme"+ process.env.GROUP_ME_OWNER+"bot");
+      reg.addRegexPattern("users", "@groupme"+ process.env.GROUP_ME_OWNER+"_.*", true);
+	  reg.addRegexPattern("aliases", "#groupme"+ process.env.GROUP_ME_OWNER+"_.*", true);
       reg.setSenderLocalpart("groupmebot");
       reg.addRegexPattern("users", "@groupme_.*", true);
       reg.addRegexPattern("aliases", "#groupme_.*", true);
