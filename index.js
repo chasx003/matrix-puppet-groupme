@@ -67,7 +67,7 @@ class App extends MatrixPuppetBridgeBase {
         const { subject: { group_id, user_id, name } } = data;
         const isMe = user_id === this.userId;
         debug('text = ', text, 'pictureurl = ', picture_url);
-        if (String(picture_url) == 'null' ){
+        if (String(picture_url) != 'null' ){
            text = text + " " +picture_url;
         }
         
