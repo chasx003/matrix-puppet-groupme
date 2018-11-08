@@ -65,8 +65,9 @@ class App extends MatrixPuppetBridgeBase {
       userSub.on('line.create', (data) => {
         const { subject: { group_id, user_id, text, name, picture_url } } = data;
         const isMe = user_id === this.userId;
+        debug('text = ', text, 'pictureurl = ', picture_url);
         if (picture_url != "null"){
-          text = picture_url +"\n"+text;
+          text = picture_url +" "+ text;
         }
         return this.handleThirdPartyRoomMessage({
           roomId: group_id,
