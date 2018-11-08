@@ -63,8 +63,11 @@ class App extends MatrixPuppetBridgeBase {
 
       console.log('Subscribed to GroupMe user messages');
       userSub.on('line.create', (data) => {
-        const { subject: { group_id, user_id, text, name } } = data;
+        const { subject: { group_id, user_id, text, name, picture_url } } = data;
         const isMe = user_id === this.userId;
+        if (picture_url != "null"){
+          text = picture_url +"\n"+text;
+        }
         return this.handleThirdPartyRoomMessage({
           roomId: group_id,
           senderName: name,
