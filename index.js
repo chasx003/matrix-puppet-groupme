@@ -68,12 +68,9 @@ class App extends MatrixPuppetBridgeBase {
         const isMe = user_id === this.userId;
         debug('text = ', text, 'pictureurl = ', picture_url);
         if (String(picture_url) == 'null' ){
-          const text = text + " " +picture_url;
+           text = text + " " +picture_url;
         }
-        else{
-          const text = text;
-        }
-
+        
           
           return this.handleThirdPartyRoomMessage({
             roomId: group_id,
