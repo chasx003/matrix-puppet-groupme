@@ -66,9 +66,20 @@ class App extends MatrixPuppetBridgeBase {
         const { subject: { group_id, user_id, text, name, picture_url } } = data;
         const isMe = user_id === this.userId;
         debug('text = ', text, 'pictureurl = ', picture_url);
-        if (picture_url != "null"){
-          text = picture_url +" "+ text;
-        }
+        if (picture_url.contains("http")){
+          const newText = text + " " + picture_url;
+
+          
+          return this.handleThirdPartyRoomMessage({
+            roomId: group_id,
+            senderName: name,
+            senderId: isMe ? undefined : user_id,
+            newText
+          }).catch(err => {
+            console.error(err.stack);
+          });
+          
+        } else{
         return this.handleThirdPartyRoomMessage({
           roomId: group_id,
           senderName: name,
@@ -76,7 +87,7 @@ class App extends MatrixPuppetBridgeBase {
           text
         }).catch(err => {
           console.error(err.stack);
-        });
+        }); }
       });
       userSub.on('direct_message.create', (data) => {
         const { subject: { chat_id, sender_id, text, name } } = data;
